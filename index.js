@@ -1,27 +1,31 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
 const supabaseUrl = 'https://npypaamupqinwmkemnup.supabase.co'
-
 const supabaseKey = 'sb_publishable_i4Fo49sPnASeOu825piFgw_93MxBv4A'
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-async function obtenerEstudiantes() {
+window.guardarEstudiante = async function () {
 
-  const { data, error } = await supabase
-    .from('estudiantes')
-    .select('*')
+    const nombre = document.getElementById('nombre').value
 
-  if (error) {
+    const carrera = document.getElementById('carrera').value
 
-    console.log('Error:', error)
+    const { data, error } = await supabase
+        .from('estudiantes')
+        .insert([
+            { nombre, carrera }
+        ])
 
-  } else {
+    if(error){
 
-    console.log('Datos:', data)
+        console.log(error)
+        alert('Error al guardar')
 
-  }
+    } else {
 
+        console.log(data)
+        alert('Estudiante guardado')
+
+    }
 }
-
-obtenerEstudiantes()
